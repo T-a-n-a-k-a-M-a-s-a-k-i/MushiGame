@@ -12,7 +12,7 @@ public class GameWindow extends JFrame implements ActionListener{
 	public GameWindow(){
 		super("Hungry Caterpillar");
 		
-		setSize(600, 400);
+		setSize(300, 200);
 		this.contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setLocationRelativeTo(null);	
 		setTitleComponents();
