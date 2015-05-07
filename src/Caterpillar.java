@@ -1,7 +1,6 @@
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Queue;
 
 public class Caterpillar {
 	public static int CONFIG_START_X = 160;
@@ -102,19 +101,23 @@ public class Caterpillar {
 	private void updateDirection(){
 		updateJointsDirection();
 		
-		if(Keys.isDown(Keys.UP) && !isMovingUp() && !isMovingDown()){
+		if(Keys.isDown(Keys.UP) && !isMovingUp() && !isMovingDown() 
+				&& checkJointsAligned(head, joints.get(0))){
 			head.setMoveUp();
 			turns.put(0, Keys.UP);
 		}
-		else if(Keys.isDown(Keys.RIGHT) && !isMovingRight() && !isMovingLeft()){
+		else if(Keys.isDown(Keys.RIGHT) && !isMovingRight() && !isMovingLeft() 
+				&& checkJointsAligned(head, joints.get(0))){
 			head.setMoveRight();
 			turns.put(0, Keys.RIGHT);
 		}
-		else if(Keys.isDown(Keys.DOWN) && !isMovingDown()&& !isMovingUp()){
+		else if(Keys.isDown(Keys.DOWN) && !isMovingDown()&& !isMovingUp() 
+				&& checkJointsAligned(head, joints.get(0))){
 			head.setMoveDown();
 			turns.put(0, Keys.DOWN);
 		}
-		else if(Keys.isDown(Keys.LEFT) && !isMovingLeft()&& !isMovingRight()){
+		else if(Keys.isDown(Keys.LEFT) && !isMovingLeft()&& !isMovingRight() 
+				&& checkJointsAligned(head, joints.get(0))){
 			head.setMoveLeft();
 			turns.put(0, Keys.LEFT);
 		}
@@ -167,6 +170,16 @@ public class Caterpillar {
 		}
 
 		turns = turnsNext;
+	}
+	
+	private boolean checkJointsAligned(Entity prev, Entity next){
+		if(null != prev && null != next){
+			return (prev.getCenterX() == next.getCenterX() 
+					|| prev.getCenterY() == next.getCenterY());
+		}
+		else{
+			return false;
+		}
 	}
 	
 	private void initJointsPosition(){
