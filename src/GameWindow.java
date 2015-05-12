@@ -1,18 +1,28 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class GameWindow extends JFrame implements ActionListener{
 	private Container contentPane = getContentPane();
-	private Input input;
-	private Mediator mediator;
+	private GameMediator mediator;
 	private Canvas canvas;
 	
-	public GameWindow(Mediator mediator){
-		super("Catapilar Game");
+	public GameWindow(){
+		super("Hungry Caterpillar");
+		
+		setSize(300, 200);
+		this.contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+		setLocationRelativeTo(null);	
+		setTitleComponents();
+	}
+	
+	public GameWindow(GameMediator mediator){
+		super("Hungry Caterpillar");
 		
 		this.mediator = mediator;
-		this.input = new Input(mediator);
+//		this.input = new Input(mediator);
 		
 		setSize(300, 200);
 		this.contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -21,7 +31,7 @@ public class GameWindow extends JFrame implements ActionListener{
 	}
 	
 	public void setTitleComponents(){
-		JLabel titleLabel = new JLabel("Catapilar Game");
+		JLabel titleLabel = new JLabel("Caterpillar Game");
 		JButton startGameButton = new JButton("Start!");
 		JButton quitGameButton = new JButton("Quit");
 		JPanel titlePanel = new JPanel();
@@ -45,13 +55,21 @@ public class GameWindow extends JFrame implements ActionListener{
 	}
 	
 	public void setGameComponents(){
-		Input input = new Input(this.mediator);
+//		Input input = new Input(this.mediator);
 		this.canvas = new Canvas();
 		
 		contentPane.removeAll();
 		contentPane.add(this.canvas);
 		
+		this.setResizable(false);
+		this.pack();
+
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		repaint();
+		this.canvas.requestFocus();
 	}
 	
 	public void setGameOverComponents(){
