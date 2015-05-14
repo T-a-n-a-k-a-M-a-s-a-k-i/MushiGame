@@ -7,6 +7,7 @@ public class GameMediator {
 	
 	private ArrayList<Apple> apples;
 	private ArrayList<Tree> trees;
+	private ArrayList<CJoint> joints;
 	private Caterpillar mushi;
 	private TileMap tilemap;
 	private HUD hud;
@@ -18,8 +19,11 @@ public class GameMediator {
 		placeTrees();
 		
 		mushi = new Caterpillar();
+        mushi.setMediator(this);
 		
 		placeApples();
+
+		joints = new ArrayList<CJoint>();
 	}
 	
 	private void placeTrees(){
@@ -57,6 +61,22 @@ public class GameMediator {
 	public void update(){
 		mushi.update();
 	};
+
+	public void collisionCheckAll(ActiveObject anActiveObject){
+		for(Tree tree : trees){
+			tree.collisionCheck(anActiveObject);
+		}
+		for(Apple apple : apples){
+			apple.collisionCheck(anActiveObject);
+		}
+		for(CJoint joint : joints){
+			joint.collisionCheck(anActiveObject);
+		}
+	}
+
+	public void addJoint(CJoint joint){
+		joints.add(joint);
+	}
 	
 	public void draw(Graphics2D g2d){
 		hud.draw(g2d);
@@ -102,6 +122,4 @@ public class GameMediator {
 		
 		return valid;
 	}
-
-
 }

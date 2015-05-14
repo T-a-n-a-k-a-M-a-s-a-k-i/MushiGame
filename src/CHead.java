@@ -17,6 +17,13 @@ public class CHead extends Entity implements ActiveObject {
 		super(posx, posy);
 		loadImage(IMG_DOWN);
 	}
+
+	@Override
+	public void update(){
+		mediator.collisionCheckAll(this);
+		super.getNextPosition();
+		setPosition(nextX, nextY);
+	}
 	
 	public void setMoveUp() {
 		super.setMoveUp();
@@ -40,14 +47,17 @@ public class CHead extends Entity implements ActiveObject {
 	
 	@Override
 	public void hitJoint() {
+		System.out.println("Hit Joint");
 	}
 
 	@Override
 	public void hitTree() {
+		System.out.println("Hit Tree");
 	}
 
 	@Override
 	public void hitApple() {
+		System.out.println("Hit Apple");
 	}
 	
 	private void loadImage(String path){

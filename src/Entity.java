@@ -121,7 +121,7 @@ public class Entity {
 		setPosition(nextX, nextY);
 	}
 	
-	private void getNextPosition() {
+	public void getNextPosition() {
 		if (up) {
 			nextX = x;
 			nextY = y - speed;
