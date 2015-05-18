@@ -32,7 +32,7 @@ public class CJoint extends Entity implements PassiveObject {
 		aoWidth = anActiveObject.getWidth();
 		aoHeight = anActiveObject.getHeight();
 
-		if((Math.abs(x-aoX)<width/2+aoWidth/2) && (Math.abs(y-aoY)<height/2+aoHeight/2)){
+		if((Math.abs(getCenterX()-aoX)<width/8+aoWidth/8) && (Math.abs(getCenterY()-aoY)<height/8+aoHeight/8)){
 			anActiveObject.hitJoint();
 		}
 	}

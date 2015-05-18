@@ -18,6 +18,7 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 	private final int TARGET_TIME = 1000 / FPS;
 
 	private GameMediator aGameMediator;
+	private GameWindow aGameWindow;
 	
 	private BufferedImage img;
 	private boolean running;
@@ -25,6 +26,13 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 	private Thread thread;
 	
 	public Canvas() {
+		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT2 * SCALE));
+		setFocusable(true);
+		requestFocus();
+	}
+	
+	public Canvas(GameWindow aGameWindow) {
+		this.aGameWindow = aGameWindow;
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT2 * SCALE));
 		setFocusable(true);
 		requestFocus();
@@ -50,10 +58,11 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 			start = System.nanoTime();
 			
 			Keys.update();
+			drawToScreen();
 			aGameMediator.update();
 			aGameMediator.draw(g2d);
 			
-			drawToScreen();
+			//
 			
 			elapsed = System.nanoTime() - start;
 
@@ -73,13 +82,18 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 		running = true;
 		img = new BufferedImage(WIDTH, HEIGHT2, 1);
 		g2d = (Graphics2D) img.getGraphics();
-		aGameMediator = new GameMediator();
+		aGameMediator = new GameMediator(this);
 	}
 
 	private void drawToScreen() {
 		Graphics g2 = getGraphics();
 		g2.drawImage(img, 0, 0, WIDTH * SCALE, HEIGHT2 * SCALE, null);
 		g2.dispose();
+	}
+	
+	public void noticeToGameOver(int score){
+		running = false;
+		aGameWindow.setGameOverComponents(score);
 	}
 
 	@Override

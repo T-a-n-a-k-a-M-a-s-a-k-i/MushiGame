@@ -41,6 +41,10 @@ public class Caterpillar {
 		}
 	}
 	
+	public void addJoint(){
+
+	}
+	
 	public boolean isMovingUp() {
 		return head.isMovingUp();
 	}
@@ -55,6 +59,10 @@ public class Caterpillar {
 
 	public boolean isMovingLeft() {
 		return head.isMovingLeft();
+	}
+	
+	public ArrayList<CJoint> getJoints(){
+		return joints;
 	}
 	
 	public void update(){
@@ -93,8 +101,6 @@ public class Caterpillar {
 			
 			prev = next;
 		}
-		
-		
 		return ordered;
 	}
 
@@ -218,5 +224,4 @@ public class Caterpillar {
 		
 		next.setPosition(posx, posy);
 	}
-
 }
