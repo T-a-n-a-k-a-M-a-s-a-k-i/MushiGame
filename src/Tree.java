@@ -5,6 +5,8 @@ import javax.imageio.ImageIO;
 public class Tree extends Entity implements PassiveObject {
 	public final static int TREE_WIDTH = 16;
 	public final static int TREE_HEIGHT = 16;
+
+	private int aoX, aoY, aoWidth, aoHeight;
 	
 	public Tree(){
 		super();
@@ -26,8 +28,16 @@ public class Tree extends Entity implements PassiveObject {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void collisionCheck(ActiveObject anActiveObject) {
+		aoX = anActiveObject.getCenterX();
+		aoY = anActiveObject.getCenterY();
+		aoWidth = anActiveObject.getWidth();
+		aoHeight = anActiveObject.getHeight();
+
+		if((Math.abs(x-aoX)<width/2+aoWidth/2) && (Math.abs(y-aoY)<height/2+aoHeight/2)){
+			anActiveObject.hitTree();
+		}
 	}
 }

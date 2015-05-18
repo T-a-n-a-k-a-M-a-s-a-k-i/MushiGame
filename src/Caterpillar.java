@@ -7,7 +7,7 @@ public class Caterpillar {
 	public static int CONFIG_START_Y = 120;
 	public static int CONFIG_JOINTNUM = 5;
 	
-//	private GameMediator mediator;
+	private GameMediator mediator;
 	private Hashtable<Integer, Integer> turns;
 	private ArrayList<CJoint> joints;
 	private CHead head;
@@ -32,7 +32,7 @@ public class Caterpillar {
 	}
 	
 	public void setMediator(GameMediator m){
-//		mediator = m;
+		mediator = m;
 		
 		head.setMediator(m);
 		
