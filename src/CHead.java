@@ -47,17 +47,17 @@ public class CHead extends Entity implements ActiveObject {
 	
 	@Override
 	public void hitJoint() {
-		System.out.println("Hit Joint");
+		mediator.noticeToGameOver();
 	}
 
 	@Override
 	public void hitTree() {
-		System.out.println("Hit Tree");
+		mediator.noticeToGameOver();
 	}
 
 	@Override
 	public void hitApple() {
-		System.out.println("Hit Apple");
+		mediator.addJoint();
 	}
 	
 	private void loadImage(String path){

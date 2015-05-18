@@ -13,24 +13,31 @@ public class GameWindow extends JFrame implements ActionListener{
 		super("Hungry Caterpillar");
 		
 		setSize(300, 200);
-		this.contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setLocationRelativeTo(null);	
 		setTitleComponents();
+		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public GameWindow(GameMediator mediator){
 		super("Hungry Caterpillar");
 		
 		this.mediator = mediator;
-//		this.input = new Input(mediator);
 		
 		setSize(300, 200);
-		this.contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setLocationRelativeTo(null);	
 		setTitleComponents();
+		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void setTitleComponents(){
+		contentPane.removeAll();
+		
 		JLabel titleLabel = new JLabel("Caterpillar Game");
 		JButton startGameButton = new JButton("Start!");
 		JButton quitGameButton = new JButton("Quit");
@@ -40,23 +47,23 @@ public class GameWindow extends JFrame implements ActionListener{
 		startGameButton.addActionListener(this);
 		quitGameButton.addActionListener(this);
 		
-		this.contentPane.removeAll();
+		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
 		
-		titlePanel.add(titleLabel, BorderLayout.CENTER);
+		titlePanel.add(titleLabel, BorderLayout.NORTH);
 		
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(startGameButton);
 		buttonPanel.add(quitGameButton);
 		
-		this.contentPane.add(titlePanel);
-		this.contentPane.add(buttonPanel);
+		contentPane.add(titlePanel, BorderLayout.NORTH);
+		contentPane.add(buttonPanel, BorderLayout.SOUTH);
 		
+		this.setVisible(true);
 		repaint();
 	}
 	
 	public void setGameComponents(){
-//		Input input = new Input(this.mediator);
-		this.canvas = new Canvas();
+		this.canvas = new Canvas(this);
 		
 		contentPane.removeAll();
 		contentPane.add(this.canvas);
@@ -64,16 +71,17 @@ public class GameWindow extends JFrame implements ActionListener{
 		this.setResizable(false);
 		this.pack();
 
-		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		repaint();
 		this.canvas.requestFocus();
 	}
 	
-	public void setGameOverComponents(){
+	public void setGameOverComponents(int score){
+		setSize(300, 200);
+		contentPane.removeAll();
+		
 		JLabel titleLabel = new JLabel("Game Over");
+		JLabel scoreLabel = new JLabel("Score: " + Integer.toString(score));
 		JButton restartGameButton = new JButton("Restart");
 		JButton quitGameButton = new JButton("Quit");
 		JPanel titlePanel = new JPanel();
@@ -82,18 +90,18 @@ public class GameWindow extends JFrame implements ActionListener{
 		restartGameButton.addActionListener(this);
 		quitGameButton.addActionListener(this);
 		
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		contentPane.removeAll();
-		
+		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
+		titlePanel.add(scoreLabel, BorderLayout.CENTER);
 		
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(restartGameButton);
 		buttonPanel.add(quitGameButton);
 		
-		contentPane.add(titlePanel);
-		contentPane.add(buttonPanel);
+		contentPane.add(titlePanel, BorderLayout.CENTER);
+		contentPane.add(buttonPanel, BorderLayout.SOUTH);		
 		
+		setVisible(true);
 		repaint();
 	}
 	
