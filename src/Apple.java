@@ -36,5 +36,4 @@ public class Apple extends Entity implements PassiveObject {
 			anActiveObject.hitApple();
 		}
 	}
-
 }

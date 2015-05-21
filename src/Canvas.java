@@ -62,8 +62,6 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 			aGameMediator.update();
 			aGameMediator.draw(g2d);
 			
-			//
-			
 			elapsed = System.nanoTime() - start;
 
 			wait = TARGET_TIME - elapsed / 1000000;

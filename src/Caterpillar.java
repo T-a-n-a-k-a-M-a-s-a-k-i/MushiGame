@@ -27,7 +27,6 @@ public class Caterpillar {
 			joint.setSpeed(1);
 			joints.add(joint);
 		}
-		
 		initJointsPosition();
 	}
 	
@@ -42,7 +41,21 @@ public class Caterpillar {
 	}
 	
 	public void addJoint(){
-
+		CJoint newJoint = new CJoint();
+		CJoint endJoint = joints.get(joints.size()-1);
+		
+		if (endJoint.isMovingUp())
+			newJoint.setMoveUp();
+		else if (endJoint.isMovingDown())
+			newJoint.setMoveDown();
+		else if (endJoint.isMovingLeft())
+			newJoint.setMoveLeft();
+		else if (endJoint.isMovingRight())
+			newJoint.setMoveRight();
+		
+		newJoint.setSpeed(1);
+		joints.add(newJoint);
+		initJointsPosition();
 	}
 	
 	public boolean isMovingUp() {
