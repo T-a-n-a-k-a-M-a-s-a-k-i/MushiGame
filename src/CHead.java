@@ -58,6 +58,7 @@ public class CHead extends Entity implements ActiveObject {
 	@Override
 	public void hitApple() {
 		mediator.addJoint();
+		mediator.placeApples();
 	}
 	
 	private void loadImage(String path){

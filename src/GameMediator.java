@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class GameMediator {
 	public static int CONFIG_APPLENUM = 5;
+	public static int CONFIG_TREENUM = 10;
 	
-	private ArrayList<Apple> apples;
+	private Apple apple = new Apple();
 	private ArrayList<Tree> trees;
-	private ArrayList<CJoint> joints;
-	private Caterpillar mushi;
+	private Caterpillar mushi = new Caterpillar();
 	private TileMap tilemap;
 	private HUD hud;
 	private Canvas canvas;
@@ -23,8 +23,6 @@ public class GameMediator {
         mushi.setMediator(this);
 		
 		placeApples();
-
-		//joints = new ArrayList<CJoint>();
 	}
 	
 	public GameMediator(Canvas canvas){
@@ -37,8 +35,6 @@ public class GameMediator {
         mushi.setMediator(this);
 		
 		placeApples();
-
-		//joints = new ArrayList<CJoint>();
 		
 		this.canvas = canvas;
 	}
@@ -62,33 +58,30 @@ public class GameMediator {
 				trees.add(t);
 			}
 		}
+		for(int i = 0; i < CONFIG_TREENUM; i++){
+			Tree obstacleTree = new Tree();
+			randomPlace(obstacleTree);
+			trees.add(obstacleTree);
+		}
 	}
 
-	private void placeApples(){
-		apples = new ArrayList<Apple>();
-		
-		Apple apple;
-		for(int i = 0; i < CONFIG_APPLENUM; i++){
-			apple = new Apple();
-			randomPlace(apple);
-			apples.add(apple);
-		}
+	public void placeApples(){
+		apple = new Apple();
+		randomPlace(apple);
 	}
 	
 	public void update(){
 		mushi.update();
-	};
+	}
 
 	public void collisionCheckAll(ActiveObject anActiveObject){
 		for(Tree tree : trees){
 			tree.collisionCheck(anActiveObject);
 		}
-		for(Apple apple : apples){
-			apple.collisionCheck(anActiveObject);
-		}
 		for(CJoint joint : mushi.getJoints()){
 			joint.collisionCheck(anActiveObject);
 		}
+		apple.collisionCheck(anActiveObject);
 	}
 
 	public void addJoint(){
@@ -103,17 +96,12 @@ public class GameMediator {
 		for(Tree t : trees){
 			t.draw(g2d);
 		}
-		
-		for(Apple apple : apples){
-			apple.draw(g2d);
-		}
-		
+		apple.draw(g2d);
 		mushi.draw(g2d);
 	}
 	
 	public void randomPlace(Entity item){
 		int[] pos = newRandomPosition(item);
-		
 		item.setPosition(pos[0], pos[1]);
 	}
 	
@@ -136,11 +124,21 @@ public class GameMediator {
 	
 	public boolean checkPositionValid(Entity item){
 		boolean valid = true;
-		
+		//for(Tree tree : trees){
+			//if((Math.abs(tree.getCenterX()-item.getCenterX())<tree.getWidth()/2+item.getWidth()/2) && (Math.abs(tree.getCenterY()-item.getCenterY())<tree.getHeight()/2+item.getHeight()/2))
+				//valid = false;
+		//}
+		//if((Math.abs(apple.getCenterX()-item.getCenterX())<apple.getWidth()/2+item.getWidth()/2) && (Math.abs(apple.getCenterY()-item.getCenterY())<apple.getHeight()/2+item.getHeight()/2))
+			//valid = false;
+		//for(CJoint joint : mushi.getJoints()){
+			//if((Math.abs(joint.getCenterX()-item.getCenterX())<joint.getWidth()/2+item.getWidth()/2) && (Math.abs(joint.getCenterY()-item.getCenterY())<joint.getHeight()/2+item.getHeight()/2))
+				//valid = false;
+		//}
 		return valid;
 	}
 	
 	public void noticeToGameOver(){
-		this.canvas.noticeToGameOver(mushi.getJoints().size());
+		//hard coding
+		this.canvas.noticeToGameOver(mushi.getJoints().size()-5);
 	}
 }
