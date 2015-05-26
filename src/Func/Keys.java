@@ -1,12 +1,4 @@
-// Contains an array of current key state
-// previous key state. A value of true
-// means the key is pressed.
-
-// The GamePanel KeyListener will update the array.
-// All GameStates now have a handleInput() function
-// in order to keep all keyboard input operations
-// on the game thread rather than on the EDT to avoid
-// problems.
+package Func;
 
 import java.awt.event.KeyEvent;
 

@@ -1,3 +1,4 @@
+package Func;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,35 +10,29 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class Canvas extends JPanel implements Runnable, KeyListener {
-	public static final int WIDTH = 320;		//20
-	public static final int HEIGHT = 240;		//15
-	public static final int HEIGHT2 = HEIGHT + 16;
-	public static final int SCALE = 2;
-
-	private final int FPS = 30;
-	private final int TARGET_TIME = 1000 / FPS;
-
 	private GameMediator aGameMediator;
 	private GameWindow aGameWindow;
-	
+
 	private BufferedImage img;
 	private boolean running;
 	private Graphics2D g2d;
 	private Thread thread;
-	
+
 	public Canvas() {
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT2 * SCALE));
+		ConfigSingleton singleton = ConfigSingleton.getInstance();
+		int width = singleton.getCanvasWidth() * singleton.getScale();
+		int height = singleton.getCanvasHeight() * singleton.getScale();
+
+		setPreferredSize(new Dimension(width, height));
 		setFocusable(true);
 		requestFocus();
 	}
-	
+
 	public Canvas(GameWindow aGameWindow) {
+		this();
 		this.aGameWindow = aGameWindow;
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT2 * SCALE));
-		setFocusable(true);
-		requestFocus();
 	}
-	
+
 	public void addNotify() {
 		super.addNotify();
 		if (thread == null) {
@@ -49,25 +44,22 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 
 	public void run() {
 		init();
-
-		long start;
-		long elapsed;
-		long wait;
-
+		
 		while (running) {
-			start = System.nanoTime();
-			
+			long start = System.nanoTime();
+
 			Keys.update();
 			drawToScreen();
 			aGameMediator.update();
 			aGameMediator.draw(g2d);
+
+			long elapsed = System.nanoTime() - start;
+			int targetTime = ConfigSingleton.getInstance().getTargetTime();
+			long wait = targetTime - elapsed / 1000000;
 			
-			elapsed = System.nanoTime() - start;
-
-			wait = TARGET_TIME - elapsed / 1000000;
 			if (wait < 0)
-				wait = TARGET_TIME;
-
+				wait = targetTime;
+			
 			try {
 				Thread.sleep(wait);
 			} catch (Exception e) {
@@ -77,21 +69,28 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 	}
 
 	private void init() {
-		running = true;
-		img = new BufferedImage(WIDTH, HEIGHT2, 1);
+		img = new BufferedImage(ConfigSingleton.getInstance().getCanvasWidth(), 
+											ConfigSingleton.getInstance().getCanvasHeight(), 1);
 		g2d = (Graphics2D) img.getGraphics();
-		aGameMediator = new GameMediator(this);
+		running = true;
+		
+		aGameMediator = GameMediator.getInstance();
+		aGameMediator.setCanvas(this);
 	}
 
 	private void drawToScreen() {
+		ConfigSingleton singleton = ConfigSingleton.getInstance();
+		int width = singleton.getCanvasWidth() * singleton.getScale();
+		int height = singleton.getCanvasHeight() * singleton.getScale();
+		
 		Graphics g2 = getGraphics();
-		g2.drawImage(img, 0, 0, WIDTH * SCALE, HEIGHT2 * SCALE, null);
+		g2.drawImage(img, 0, 0, width, height, null);
 		g2.dispose();
 	}
-	
-	public void noticeToGameOver(int score){
-		running = false;
+
+	public void noticeToGameOver(int score) {
 		aGameWindow.setGameOverComponents(score);
+		running = false;
 	}
 
 	@Override
@@ -106,6 +105,6 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+
 	}
 }

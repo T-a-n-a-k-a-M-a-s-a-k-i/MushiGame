@@ -1,3 +1,4 @@
+package Func;
 public class HungryCaterpillar {
 
 	@SuppressWarnings("deprecation")

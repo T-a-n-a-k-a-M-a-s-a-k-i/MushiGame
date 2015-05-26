@@ -1,3 +1,4 @@
+package Func;
 import javax.swing.*;
 
 import java.awt.*;
@@ -6,25 +7,14 @@ import java.awt.event.*;
 @SuppressWarnings("serial")
 public class GameWindow extends JFrame implements ActionListener{
 	private Container contentPane = getContentPane();
-	private GameMediator mediator;
 	private Canvas canvas;
+	
+	public Canvas getCanvas(){
+		return this.canvas;
+	}
 	
 	public GameWindow(){
 		super("Hungry Caterpillar");
-		
-		setSize(300, 200);
-		setLocationRelativeTo(null);	
-		setTitleComponents();
-		
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	public GameWindow(GameMediator mediator){
-		super("Hungry Caterpillar");
-		
-		this.mediator = mediator;
 		
 		setSize(300, 200);
 		setLocationRelativeTo(null);	
@@ -105,14 +95,10 @@ public class GameWindow extends JFrame implements ActionListener{
 		repaint();
 	}
 	
-	public Canvas getCanvas(){
-		return this.canvas;
-	}
-	
 	public void actionPerformed(ActionEvent e){
 		Object obj = e.getSource();
 		JButton btn = (JButton)obj;
-		String labelString = btn.getLabel();
+		String labelString = btn.getText();
 		
 		if("Start!".equals(labelString) || "Restart".equals(labelString)){
 			setGameComponents();

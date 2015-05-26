@@ -1,3 +1,4 @@
+package Item;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -8,14 +9,14 @@ public class Entity {
 	protected int nextY;
 	protected int width;
 	protected int height;
-	protected BufferedImage image;
-	protected GameMediator mediator;
 	
 	protected int speed;
 	protected boolean up;
 	protected boolean right;
 	protected boolean down;
 	protected boolean left;
+	
+	protected BufferedImage image;
 	
 	public int getX(){
 		return x;
@@ -31,6 +32,14 @@ public class Entity {
 	
 	public int getCenterY(){
 		return y + height / 2;
+	}
+	
+	public void setCenterX(int posX){
+		x = posX - width / 2;
+	}
+	
+	public void setCenterY(int posY){
+		y = posY - height / 2;
 	}
 	
 	public int getWidth(){
@@ -67,6 +76,21 @@ public class Entity {
 		down = false;
 		left = false;
 	}
+	
+	public void turnRight(){
+		if(this.isMovingLeft()){
+			this.setMoveUp();
+		}
+		else if(this.isMovingUp()){
+			this.setMoveRight();
+		}
+		else if(this.isMovingRight()){
+			this.setMoveDown();
+		}
+		else{
+			this.setMoveLeft();
+		}
+	}
 
 	public boolean isMovingUp() {
 		return up;
@@ -88,8 +112,8 @@ public class Entity {
 		speed = spd;
 	}
 	
-	public void setMediator(GameMediator m){
-		mediator = m;
+	public int getSpeed(){
+		return speed;
 	}
 	
 	protected void setImage(BufferedImage img){
@@ -147,5 +171,21 @@ public class Entity {
 				y,
 				null
 			);
-	};
+	}
+	
+	public int calDistanceWithEntity(Entity anEntity){
+		int retvalue = Integer.MAX_VALUE;
+		
+		if(null != anEntity){
+			double dis = Math.sqrt((anEntity.getCenterX() - this.getCenterX()) 
+											* (anEntity.getCenterX() - this.getCenterX())
+											+ (anEntity.getCenterY() - this.getCenterY())
+											* (anEntity.getCenterY() - this.getCenterY()));
+			
+			dis = dis - anEntity.getWidth()/2 - this.getWidth()/2;
+			retvalue = (int)dis;
+		}
+		
+		return retvalue;
+	}
 }
