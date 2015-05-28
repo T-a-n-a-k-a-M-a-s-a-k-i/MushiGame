@@ -11,7 +11,7 @@ public class ConfigSingleton {
 	private final int entityHeight = 16;
 	private final int entityWidth = 16;
 	private final int speedIncrement = 1;
-	private final int speedInitial = 1;
+	private final int speedInitial = 2;
 	private final int scale = 2;
 	private final int fps = 30;
 	

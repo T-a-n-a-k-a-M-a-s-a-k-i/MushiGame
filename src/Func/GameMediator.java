@@ -50,6 +50,23 @@ public class GameMediator {
 		randomPlace(banana);
 	}
 	
+	public void initMediator(){
+		tilemap = new TileMap();
+		
+		trees = new ArrayList<Tree>();
+		placeTrees();
+		
+		mushi = new Caterpillar();
+		randomPlace(mushi);
+		mushi.born();
+		
+		apple = new Apple();
+		randomPlace(apple);
+		
+		banana = new Banana();
+		randomPlace(banana);
+	}
+	
 	private void placeTrees(){
 		ConfigSingleton singleton = ConfigSingleton.getInstance();
 		

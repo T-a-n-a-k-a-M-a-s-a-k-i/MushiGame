@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 public class Canvas extends JPanel implements Runnable, KeyListener {
 	private GameMediator aGameMediator;
 	private GameWindow aGameWindow;
-
+	
+	private boolean acceptKeyPressed = true;
 	private BufferedImage img;
 	private boolean running;
 	private Graphics2D g2d;
@@ -75,6 +76,7 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 		running = true;
 		
 		aGameMediator = GameMediator.getInstance();
+		aGameMediator.initMediator();
 		aGameMediator.setCanvas(this);
 	}
 
@@ -95,13 +97,17 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		Keys.keySet(e.getKeyCode(), true);
-		Keys.setKeyStateNew(e.getKeyCode(), true);
+		if(acceptKeyPressed){
+			Keys.keySet(e.getKeyCode(), true);
+			Keys.setKeyStateNew(e.getKeyCode(), true);
+		}
+		acceptKeyPressed = false;
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		Keys.keySet(e.getKeyCode(), false);
+		acceptKeyPressed = true;
 	}
 
 	@Override
