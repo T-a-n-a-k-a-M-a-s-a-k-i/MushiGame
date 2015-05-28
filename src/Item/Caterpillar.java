@@ -83,6 +83,7 @@ public class Caterpillar extends Entity implements ActiveObject {
 	@Override
 	public void update(){
 		updateDirection();
+		
 		super.getNextPosition();
 		setPosition(nextX, nextY);
 		GameMediator.getInstance().collisionCheckAll(this);
@@ -165,7 +166,7 @@ public class Caterpillar extends Entity implements ActiveObject {
 	}
 
 	private void updateDirection(){
-		 if(Keys.isDown(Keys.SPACE) && checkJointsAligned(this, joints.get(0))){
+		 if(Keys.isDown(Keys.SPACE) && Keys.getKeyStateNew(Keys.SPACE) && (!turns.containsValue(0))){
 			 turns.put(++turnCount, 0);
 			 this.turnRight();
 		}
@@ -182,7 +183,7 @@ public class Caterpillar extends Entity implements ActiveObject {
 			joint = joints.get(i);
 			turned = false;
 			
-			if(turns.size() > 0 && turns.containsValue(i)){
+			if(turns.containsValue(i)){
 				int tc = -1;
 				for(int j = 1; j <= turnCount; j++){
 					if(turns.containsKey(j) && i == turns.get(j)){
@@ -192,20 +193,19 @@ public class Caterpillar extends Entity implements ActiveObject {
 				}
 				
 				if(tc > 0){
-					turned = turnJoint(prev, joint);
-				}
-				
-				if(turned){
-					joint.turnRight();
-					turns.remove(tc, i);
-					turns.put(tc, i + 1);
-				}
-				else{
-					turnsNext.put(tc, i);
-				}
-				
-				if(turns.size() > 0){
-					System.out.println(turns.toString());
+					if(!turns.containsValue(i+1)){
+						turned = turnJoint(prev, joint);
+						
+						if(turned){
+							joint.turnRight();
+							turns.remove(tc, i);
+							turns.put(tc, i + 1);
+						}
+					}
+					
+					if(!turned){
+						turnsNext.put(tc, i);
+					}
 				}
 			}
 			
@@ -268,18 +268,6 @@ public class Caterpillar extends Entity implements ActiveObject {
 		
 		return retvalue;
 	}
-	
-	private boolean checkJointsAligned(Entity prev, Entity next){
-		boolean retvalue = true;
-		
-		if(null != prev && null != next){
-			retvalue = (prev.getCenterX() == next.getCenterX() 
-					|| prev.getCenterY() == next.getCenterY());
-		}
-		
-		return retvalue;
-	}
-	
 	
 	private void initJointsPosition(){
 		if(0 < joints.size()){

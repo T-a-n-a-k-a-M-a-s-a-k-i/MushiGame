@@ -2,7 +2,7 @@ package Func;
 public class ConfigSingleton {
 	private static ConfigSingleton instance = null;
 
-	private final int collisionDetectionDistance = -5;
+	private final int collisionDetectionDistance = -3;
 	private final int obstacleMinDistance = 32;
 	private final int obstacleTreeNumber = 5;
 	private final int initialJointNumber = 3;

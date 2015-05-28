@@ -48,8 +48,8 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 		while (running) {
 			long start = System.nanoTime();
 
-			Keys.update();
 			drawToScreen();
+			Keys.update();
 			aGameMediator.update();
 			aGameMediator.draw(g2d);
 
@@ -96,6 +96,7 @@ public class Canvas extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		Keys.keySet(e.getKeyCode(), true);
+		Keys.setKeyStateNew(e.getKeyCode(), true);
 	}
 
 	@Override

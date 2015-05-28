@@ -8,6 +8,7 @@ public class Keys {
 	
 	public static boolean keyState[] = new boolean[NUM_KEYS];
 	public static boolean prevKeyState[] = new boolean[NUM_KEYS];
+	public static boolean keyStateNew[] = new boolean[NUM_KEYS];
 	
 	public static int UP = 0;
 	public static int LEFT = 1;
@@ -29,6 +30,23 @@ public class Keys {
 		else if(i == KeyEvent.VK_F1) keyState[F1] = b;
 	}
 	
+	public static void setKeyStateNew(int i, boolean b){
+		if(i == KeyEvent.VK_UP) keyStateNew[UP] = b;
+		else if(i == KeyEvent.VK_LEFT) keyStateNew[LEFT] = b;
+		else if(i == KeyEvent.VK_DOWN) keyStateNew[DOWN] = b;
+		else if(i == KeyEvent.VK_RIGHT) keyStateNew[RIGHT] = b;
+		else if(i == KeyEvent.VK_SPACE) keyStateNew[SPACE] = b;
+		else if(i == KeyEvent.VK_ENTER) keyStateNew[ENTER] = b;
+		else if(i == KeyEvent.VK_ESCAPE) keyStateNew[ESCAPE] = b;
+		else if(i == KeyEvent.VK_F1) keyStateNew[F1] = b;
+	}
+	
+	public static boolean getKeyStateNew(int i){
+		boolean isNew = keyStateNew[i];
+		keyStateNew[i] = false;
+		return isNew;
+	}
+	
 	public static void update() {
 		for(int i = 0; i < NUM_KEYS; i++) {
 			prevKeyState[i] = keyState[i];
@@ -36,7 +54,7 @@ public class Keys {
 	}
 	
 	public static boolean isPressed(int i) {
-		return keyState[i] && !prevKeyState[i];
+		return (!keyState[i]) && prevKeyState[i];
 	}
 	
 	public static boolean isDown(int i) {
@@ -52,7 +70,7 @@ public class Keys {
 	
 	public static boolean anyKeyPress() {
 		for(int i = 0; i < NUM_KEYS; i++) {
-			if(keyState[i] && !prevKeyState[i]) return true;
+			if(!keyState[i] && prevKeyState[i]) return true;
 		}
 		return false;
 	}
